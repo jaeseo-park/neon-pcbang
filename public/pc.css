@@ -170,6 +170,18 @@
   margin-top: 12px; border: 1px solid #595249; border-radius: 6px; background: #23211f; padding: 7px 10px;
 }
 .arcade-rank-box summary { cursor: pointer; font-size: 11px; font-weight: 750; color: #ffe19c; }
+.arcade-rank-tabs { display: flex; gap: 4px; margin-top: 8px; }
+.arcade-rank-tab {
+  flex: 1; min-height: 32px; padding: 4px 8px; border: 1px solid #595249; border-radius: 4px;
+  background: #2d2a27; color: var(--sub); font-size: 11px; font-weight: 750; cursor: pointer; touch-action: manipulation;
+}
+.arcade-rank-tab[aria-selected="true"] { background: #4c383d; border-color: #f6cf73; color: #ffe19c; box-shadow: inset 0 -2px #f6cf73; }
+.arcade-rank-note { margin: 6px 0 0; color: var(--sub); font-size: 11px; text-align: center; }
+.arcade-rank-note a { color: #ffe19c; }
+/* 런처의 이웃 게임 바로가기 (새 탭 링크) */
+a.pc-app-link { text-decoration: none; }
+.pc-app-icon.pixel-neighbor { background: #222830; border: 1px solid #434e5c; }
+.pc-app-icon.pixel-neighbor svg { width: 28px; height: 26px; image-rendering: pixelated; }
 .arcade-rank-list { list-style: none; margin: 8px 0 0; padding: 0; display: grid; gap: 4px; font-size: 12px; }
 .arcade-rank-list li {
   display: grid; grid-template-columns: 34px 1fr auto; align-items: center; gap: 6px;
