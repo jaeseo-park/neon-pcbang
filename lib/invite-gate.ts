@@ -9,6 +9,7 @@ const adminLife = 12 * 3600_000;
 const enc = new TextEncoder();
 const entryStylesheet = "/invite-entry.css";
 const entryBackdrop = "/pcbang-cozy-hall.png";
+const publicRankPath = "/api/public/rank";
 
 async function digest(value: string) {
   const bytes = await crypto.subtle.digest("SHA-256", enc.encode(value));
@@ -361,6 +362,10 @@ export async function gate(request: Request, env: GateEnv): Promise<Response | n
   // Only the invitation screen's decorative assets are needed before admission.
   if ((request.method === "GET" || request.method === "HEAD") &&
       (path === entryStylesheet || path === entryBackdrop)) return null;
+  // INVITE-GATE EXCEPTION (owner's call): the read-only public leaderboard is readable without an
+  // invitation so the neighbouring game can show it. It exposes game name, rank, nickname and score only
+  // (lib/cafe-arcade.mjs publicRank). Delete this line to put it back behind the invitation gate.
+  if ((request.method === "GET" || request.method === "HEAD") && path === publicRankPath) return null;
   const isAdminRoute = path === "/admin" || path === "/admin/login" || path === "/invite-admin.js" ||
     path.startsWith("/auth/admin-") || path.startsWith("/auth/invite-");
   const isAuthRoute = path === "/invite" || path.startsWith("/auth/") || isAdminRoute;
