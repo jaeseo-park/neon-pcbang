@@ -169,6 +169,75 @@
     for (let dx = 7; dx < w - 6; dx += 14) rect(ctx, x + dx, y + 30, 2, 19, PAL.w0);
     rect(ctx, x + 3, y + 46, w - 6, 3, PAL.s);
   }
+  // Walled room seen from the hall (renewal slice spec): back wall face, capped side walls, a low front wall,
+  // and a doorway with posts, threshold and a parked sliding door set into the east wall.
+  function walledRoom(ctx, room, night) {
+    const x = S(room.x), y = S(room.y), w = S(room.w), h = S(room.h);
+    const back = 18, side = 8, front = 10;
+    const ix = x + side, iy = y + back, iw = w - side * 2, ih = h - back - front;
+    // contact shadow on the hall floor
+    rect(ctx, x + w, y + 8, 5, h - 4, "rgba(38, 28, 41, 0.26)");
+    rect(ctx, x + 5, y + h, w, 5, "rgba(38, 28, 41, 0.26)");
+    rect(ctx, x, y, w, h, PAL.k);
+    // interior floor + rug
+    floor(ctx, ix, iy, iw, ih, true, night);
+    frame(ctx, ix + 6, iy + 14, iw - 12, ih - 18, PAL.c1, PAL.c0);
+    frame(ctx, ix + 9, iy + 17, iw - 18, ih - 24, PAL.c1, PAL.c3);
+    // back (north) wall: top cap, face, wall lamp, baseboard
+    rect(ctx, x + 1, y + 1, w - 2, 4, PAL.v);
+    rect(ctx, x + 1, y + 5, w - 2, back - 6, PAL.d);
+    rect(ctx, x + 1, y + back - 4, w - 2, 2, PAL.w1);
+    rect(ctx, x + 1, y + back - 2, w - 2, 2, PAL.s);
+    // desks against the back wall: monitor, desk top, keyboard, chair
+    const pcs = Math.max(1, room.pcs || 1);
+    const gap = Math.floor(iw / pcs);
+    for (let i = 0; i < pcs; i++) {
+      const dx = ix + i * gap + Math.floor((gap - 30) / 2);
+      frame(ctx, dx + 8, y + 5, 14, 11, PAL.c0);
+      rect(ctx, dx + 10, y + 7, 10, 6, night ? PAL.t3 : PAL.t2);
+      rect(ctx, dx + 10, y + 7, 4, 2, PAL.t4);
+      rect(ctx, dx + 13, y + 16, 4, 2, PAL.k);
+      frame(ctx, dx, iy, 30, 11, PAL.w3, PAL.w0);
+      rect(ctx, dx + 1, iy + 1, 28, 2, PAL.w4);
+      rect(ctx, dx + 1, iy + 8, 28, 2, PAL.w1);
+      frame(ctx, dx + 8, iy + 3, 12, 4, PAL.c3, PAL.c0);
+      rect(ctx, dx + 23, iy + 4, 3, 3, PAL.c4);
+      rect(ctx, dx + 10, iy + 23, 12, 3, "rgba(38, 28, 41, 0.3)");
+      frame(ctx, dx + 9, iy + 13, 12, 11, PAL.d);
+      rect(ctx, dx + 10, iy + 14, 10, 3, PAL.v);
+      rect(ctx, dx + 11, iy + 18, 8, 4, PAL.s);
+    }
+    if (night && T) T.drawDitherGlow(ctx, x + Math.floor(w / 2), iy + 10, 30, 16, PAL.y3, 0.16);
+    // side walls seen from above (light cap edge towards the room light)
+    for (const sx of [x + 1, x + w - side]) {
+      rect(ctx, sx, y + 1, side - 1, h - 2, PAL.s);
+      rect(ctx, sx + 1, y + 1, 2, h - 2, PAL.v);
+      rect(ctx, sx + side - 2, y + 1, 1, h - 2, PAL.k);
+    }
+    // low front (south) wall: cap + face
+    rect(ctx, x + 1, y + h - front, w - 2, 4, PAL.v);
+    rect(ctx, x + 1, y + h - front + 4, w - 2, front - 6, PAL.d);
+    rect(ctx, x + 1, y + h - 2, w - 2, 1, PAL.s);
+    // doorway in the east wall
+    const dh = S(15);
+    const dy = S(room.doorY) - Math.floor(dh / 2);
+    const ex = x + w - side;
+    rect(ctx, ex - 1, dy, side + 2, dh, PAL.k);
+    rect(ctx, ex, dy + 1, side, dh - 2, PAL.p1);
+    for (let ty = dy + 3; ty < dy + dh - 2; ty += 4) rect(ctx, ex + 1, ty, side - 2, 1, PAL.p0);
+    for (const py of [dy - 5, dy + dh]) {
+      frame(ctx, ex - 2, py, side + 4, 5, PAL.t1);
+      rect(ctx, ex - 1, py + 1, side + 2, 1, PAL.t3);
+    }
+    // sliding glass door parked along the wall above the doorway
+    frame(ctx, ex + 2, dy - 5 - dh + 3, 4, dh - 2, PAL.c3, PAL.t0);
+    rect(ctx, ex + 3, dy - 5 - dh + 5, 1, dh - 6, PAL.c4);
+    // doormat on the hall side
+    rect(ctx, x + w + 3, dy + 3, 9, dh - 4, "rgba(38, 28, 41, 0.22)");
+    frame(ctx, x + w + 1, dy + 2, 9, dh - 4, PAL.r1, PAL.r0);
+    rect(ctx, x + w + 3, dy + 4, 5, 1, PAL.r3);
+    rect(ctx, x + w + 3, dy + dh - 5, 5, 1, PAL.r3);
+  }
   // Free-standing cork notice board: wood frame, cork face, pinned paper notes, two legs and a contact shadow.
   function noticeBoard(ctx, x, y, w, h) {
     const faceH = Math.round(h * 0.7);
@@ -263,6 +332,7 @@
   let doorAt = 0;
   let doorway = null;
   let hallDoors = [];
+  let walledRooms = {};
 
   function hallway(night) {
     const CL = window.cafeLayout;
@@ -277,14 +347,17 @@
     rect(base, S(733), S(52), S(10), S(394), PAL.d);
 
     const alcoves = lm?.alcoves?.map((a) => [a.x, a.y, a.w, a.h]) ?? [
-      [43, 106, 77, 103], [43, 238, 77, 56], [657, 165, 69, 53], [657, 307, 69, 47],
+      [657, 165, 69, 53], [657, 307, 69, 47],
     ];
+    walledRooms = lm?.rooms ?? {};
+    for (const room of Object.values(walledRooms)) walledRoom(base, room, night);
     for (const [x, y, w, h] of alcoves) {
       frame(base, S(x), S(y), S(w), S(h), PAL.s);
       floor(base, S(x + 4), S(y + 4), S(w - 8), S(h - 8), true, night);
       couch(base, S(x + 9), S(y + 8), S(w - 18), true);
     }
-    for (const { x, y } of hallDoors) door(base, x, y, S(25));
+    // 벽 있는 룸은 벽에 문틀이 붙어 있으므로 떠 있는 문 그림을 그리지 않는다.
+    for (const { x, y, key } of hallDoors) if (!walledRooms[key]) door(base, x, y, S(25));
 
     // Bay center cable-spine wood beams (derived from cafeLayout.hallBanks)
     const spines = CL?.hallBanks?.map((b) => b.spineX) ?? [231, 343, 463, 584];
@@ -666,9 +739,9 @@
       doorAt = performance.now();
     },
     placeDoors(rooms, lounges) {
-      hallDoors = [...Object.values(rooms), ...Object.values(lounges)].map((point) => {
+      hallDoors = [...Object.entries(rooms), ...Object.entries(lounges)].map(([key, point]) => {
         const { x, y } = pixel(point);
-        return { x: x - S(12), y: y - S(27) };
+        return { key, x: x - S(12), y: y - S(27) };
       });
       if (area === "hall") lastPhase = "";
     },
