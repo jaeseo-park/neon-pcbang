@@ -1,4 +1,4 @@
-import { clearSegmentInSpace, entrance, kiosk, pathTo, routeToSeat, roomPortals, relaxPortals, relaxZones, canWalkInSpace } from "./world.js";
+import { clearSegmentInSpace, entrance, kiosk, noticeBoard, pathTo, routeToSeat, roomPortals, relaxPortals, relaxZones, canWalkInSpace } from "./world.js";
 import { createCafeCamera } from "./camera.js";
 import { AVATAR_WARDROBE, encodeAvatarCode, getAvatarSheetUrl, normalizeAvatarCode, renderAvatarPortrait, renderAvatarPreview } from "./avatar-sprites.js";
 
@@ -275,6 +275,9 @@ function getProximityTarget() {
   }
   if (Math.hypot(location.x - snackCounterCoords.x, location.y - snackCounterCoords.y) < 7.5) {
     return { id: "snacks", label: "[E] 매점 · 오픈키친 열기", run: () => document.querySelector(".snack-counter")?.click() };
+  }
+  if (noticeBoard && Math.hypot(location.x - noticeBoard.x, location.y - noticeBoard.y) < 6.5) {
+    return { id: "board", label: "[E] 게시판 보기 (건의 · 오류 제보)", run: () => document.querySelector(".board-pin")?.click() };
   }
   if (Math.hypot(location.x - relaxPortals.booth.x, location.y - relaxPortals.booth.y) < 7) {
     return { id: "booth", label: "[E] 실내 흡연구역 입장", run: () => enterRelaxZone("booth") };

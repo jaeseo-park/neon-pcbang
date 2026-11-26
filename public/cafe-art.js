@@ -169,6 +169,38 @@
     for (let dx = 7; dx < w - 6; dx += 14) rect(ctx, x + dx, y + 30, 2, 19, PAL.w0);
     rect(ctx, x + 3, y + 46, w - 6, 3, PAL.s);
   }
+  // Free-standing cork notice board: wood frame, cork face, pinned paper notes, two legs and a contact shadow.
+  function noticeBoard(ctx, x, y, w, h) {
+    const faceH = Math.round(h * 0.7);
+    rect(ctx, x + 2, y + h - 3, w - 1, 4, "rgba(38, 28, 41, 0.28)");
+    for (const lx of [x + 5, x + w - 9]) {
+      frame(ctx, lx, y + faceH - 2, 4, h - faceH + 1, PAL.w1);
+      rect(ctx, lx + 1, y + faceH - 1, 1, h - faceH - 1, PAL.w3);
+      frame(ctx, lx - 2, y + h - 3, 8, 3, PAL.w0);
+    }
+    frame(ctx, x, y, w, faceH, PAL.w2);
+    rect(ctx, x + 1, y + 1, w - 2, 2, PAL.w4);
+    rect(ctx, x + 1, y + faceH - 3, w - 2, 2, PAL.w0);
+    frame(ctx, x + 3, y + 4, w - 6, faceH - 8, PAL.y1, PAL.w0);
+    for (let dy = 7; dy < faceH - 6; dy += 4) {
+      for (let dx = 6 + (dy % 8 === 7 ? 0 : 3); dx < w - 6; dx += 7) rect(ctx, x + dx, y + dy, 1, 1, PAL.y2);
+    }
+    const notes = [
+      [6, 7, 13, 11, PAL.p3, PAL.r2],
+      [22, 6, 14, 9, PAL.t4, PAL.y3],
+      [w - 22, 8, 15, 12, PAL.p2, PAL.c2],
+      [9, 21, 16, 9, PAL.g4, PAL.r2],
+      [29, 19, 13, 12, PAL.y3, PAL.t2],
+      [w - 19, 23, 12, 8, PAL.p3, PAL.g2],
+    ];
+    for (const [dx, dy, nw, nh, paper, pin] of notes) {
+      if (dx + nw > w - 4 || dy + nh > faceH - 5) continue;
+      rect(ctx, x + dx + 1, y + dy + 1, nw, nh, "rgba(38, 28, 41, 0.3)");
+      frame(ctx, x + dx, y + dy, nw, nh, paper, PAL.p0);
+      for (let line = 3; line < nh - 2; line += 3) rect(ctx, x + dx + 2, y + dy + line, nw - 5, 1, PAL.c3);
+      frame(ctx, x + dx + Math.floor(nw / 2) - 1, y + dy - 1, 3, 3, pin);
+    }
+  }
   function cabinet(ctx, x, y, w, h) {
     if (T) T.paintCabinet(ctx, x, y, w, h);
   }
@@ -289,6 +321,10 @@
       rect(base, S(ct.x + dx) + 1, S(ct.y + 64), 4, 2, PAL.r3);
     }
     plant(base, S(ct.x + 62), S(ct.y + 55), 0, night);
+
+    // Notice board (건의 · 오류 제보): standing cork board with pinned notes
+    const nb = lm?.board ?? { x: 670, y: 236, w: 42, h: 50 };
+    noticeBoard(base, S(nb.x), S(nb.y), S(nb.w), S(nb.h));
 
     // Self-service Kiosk
     const ks = lm?.kiosk ?? { x: 186, y: 386 };

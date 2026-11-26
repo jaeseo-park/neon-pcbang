@@ -88,3 +88,19 @@ export const pvpMatches = sqliteTable("cafe_pvp_matches", {
 }, (table) => [
   index("cafe_pvp_matches_active").on(table.status, table.expiresAt, table.updatedAt),
 ]);
+
+export const boardPosts = sqliteTable("board_posts", {
+  id: text().primaryKey().notNull(),
+  category: text().notNull(),
+  nickname: text().notNull(),
+  body: text().notNull(),
+  status: text().notNull().default("waiting"),
+  hidden: integer().notNull().default(0),
+  authorId: text("author_id").notNull(),
+  context: text().notNull().default(""),
+  createdAt: integer("created_at").notNull(),
+  statusUpdatedAt: integer("status_updated_at"),
+}, (table) => [
+  index("board_posts_recent").on(table.hidden, table.createdAt),
+  index("board_posts_author").on(table.authorId, table.createdAt),
+]);

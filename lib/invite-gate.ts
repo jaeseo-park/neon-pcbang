@@ -185,6 +185,16 @@ async function currentSession(db: DB, request: Request) {
     AND (s.role = 'admin' OR (s.role = 'user' AND c.id IS NOT NULL AND c.revoked_at IS NULL))
     LIMIT 1`).bind(hash, now).first<{ id: string; role: string; invite_id: string | null }>();
 }
+// True only for a live administrator session (the same cookie /admin uses).
+// Used by /api/board so status changes, hiding and deletion are authorised on the server.
+export async function isAdminRequest(request: Request, db: DB | undefined) {
+  if (!db) return false;
+  try {
+    return (await currentSession(db, request))?.role === "admin";
+  } catch {
+    return false;
+  }
+}
 // Scope chat throttles to a real invitation session across browser tabs.
 // Public mode falls back to the visitor token used by cafe-presence.
 export async function cafeChatSessionId(request: Request, db: DB | undefined) {

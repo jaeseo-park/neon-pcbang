@@ -49,6 +49,9 @@
     lounge: { label: "대기 라운지", x: 126, y: 159, w: 52, h: 95 },
     counter: { label: "오픈키친", x: 48, y: 295, w: 99, h: 93 },
     kiosk: { label: "키오스크", x: 186, y: 386, w: 28, h: 36 },
+    // 매장 게시판(건의·오류 제보): 오른쪽 벽 두 알코브 사이, 통행 영역(x <= 85.4%) 바깥에 세워 둔다.
+    // 상호작용 지점은 lib/cafe-world.mjs 의 noticeBoard, 버튼 위치는 cafe-board.css 의 .board-pin 과 맞춘다.
+    board: { label: "게시판", x: 670, y: 236, w: 42, h: 50 },
     entrance: { label: "입구", x: 241, y: 457, w: 36, h: 30, rugX: 224, rugY: 432, rugW: 71, rugH: 29 },
     alcoves: [
       { x: 43, y: 106, w: 77, h: 103 },

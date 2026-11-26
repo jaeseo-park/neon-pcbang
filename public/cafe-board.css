@@ -1,0 +1,46 @@
+/* 매장 게시판 (건의 · 오류 제보) */
+/* 맵 위 버튼: cafe-layout.js landmarks.board (670,236 / 768x512) 의 위쪽 가운데 */
+.board-pin { --x: 90%; --y: 43.5%; border-color: #e8b15d; }
+.scene:not([data-space="hall"],[data-space="lobby"]) .board-pin { display: none; }
+
+#board { width: min(520px, calc(100% - 14px)); }
+.board-filters { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0; }
+.board-filters select, .board-form select, .board-admin select {
+  min-height: 40px; padding: 6px 8px; border: 1px solid var(--line); border-radius: 4px;
+  background: #252320; color: var(--text); font: inherit; font-size: 12px;
+}
+.board-filters select { flex: 1 1 110px; }
+.board-filters .walk-button { min-height: 44px; margin-left: auto; touch-action: manipulation; }
+.board-form {
+  display: grid; gap: 6px; margin: 8px 0; padding: 10px; border: 1px dashed #7e5e68; border-radius: 6px; background: #2c2125;
+}
+.board-form label { display: flex; justify-content: space-between; font-size: 12px; font-weight: 750; }
+.board-form textarea {
+  width: 100%; min-height: 88px; padding: 8px; border: 1px solid var(--line); border-radius: 4px;
+  background: #fff7ea; color: #2c2226; font: inherit; font-size: 14px; resize: vertical;
+}
+.board-form-actions { display: flex; justify-content: flex-end; gap: 6px; }
+.board-form-actions .walk-button { min-height: 44px; min-width: 72px; touch-action: manipulation; }
+#board-status { min-height: 1.4em; }
+.board-list { list-style: none; margin: 8px 0 0; padding: 0; display: grid; gap: 6px; }
+.board-post { padding: 8px 10px; border: 1px solid #595249; border-radius: 6px; background: #2d2a27; }
+.board-post.is-hidden { border-style: dashed; opacity: .72; }
+.board-post-head { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px; font-size: 12px; }
+.board-post-head time { color: var(--sub); font-size: 11px; }
+.board-tag { padding: 1px 6px; border: 1px solid #8a6c75; border-radius: 3px; font-size: 11px; font-weight: 800; }
+.board-tag[data-category="bug"] { border-color: #eb9a7c; color: #ffd2bf; }
+.board-tag[data-category="suggestion"] { border-color: #8eb57a; color: #d7efc6; }
+.board-badge {
+  margin-left: auto; padding: 2px 8px; border: 1px solid #261c29; border-radius: 99px;
+  background: #563f54; color: #fff5e2; font-size: 11px; font-weight: 850; white-space: nowrap;
+}
+.board-badge[data-status="accepted"] { background: #569e7c; }
+.board-badge[data-status="rejected"] { background: #9e4b4c; }
+.board-badge[data-status="hold"] { background: #c98542; color: #261c29; }
+.board-body { margin: 6px 0 0; font-size: 13px; line-height: 1.5; white-space: pre-wrap; overflow-wrap: anywhere; }
+.board-context { margin: 4px 0 0; color: var(--sub); font-size: 11px; overflow-wrap: anywhere; }
+.board-admin { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; padding-top: 8px; border-top: 1px dashed #595249; }
+.board-admin .walk-button { min-height: 40px; touch-action: manipulation; }
+.board-danger { border-color: #cc6c5c; color: #ffd2bf; }
+.board-danger[data-armed="true"] { background: #9e4b4c; color: #fff5e2; }
+.board-empty { padding: 16px 8px; text-align: center; color: var(--sub); font-size: 12px; }
