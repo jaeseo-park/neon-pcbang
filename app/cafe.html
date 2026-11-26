@@ -705,11 +705,13 @@
       </div>
       <div class="sol-toolbar">
         <button class="walk-button" id="sol-draw-mode" type="button" aria-pressed="false">1장 뽑기</button>
+        <button class="walk-button" id="sol-easy" type="button" aria-pressed="false" title="켜면 같은 색 카드끼리도 쌓을 수 있어요">쉬움 모드 OFF</button>
         <button class="walk-button" id="sol-undo" type="button" disabled>되돌리기</button>
         <button class="walk-button" id="sol-hint" type="button">힌트</button>
         <button class="walk-button" id="sol-auto" type="button" hidden>자동 완성</button>
         <button class="walk-button" id="sol-new" type="button">새 판</button>
       </div>
+      <p class="dialog-note sol-rule" id="sol-rule">규칙: 줄에는 빨강(♥♦)과 검정(♠♣)을 번갈아, 숫자가 하나 작은 카드를 쌓아요. 같은 색끼리는 못 쌓고, 무늬는 달라도 돼요.</p>
       <div class="sol-board" id="sol-board" aria-label="클론다이크 솔리테어 보드"></div>
       <p id="sol-status" class="game-status" role="status">카드를 눌러 선택한 뒤 옮길 칸을 누르세요. 더블클릭/연속 탭으로 바로 올릴 수 있어요.</p>
     </div>

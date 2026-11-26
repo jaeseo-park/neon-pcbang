@@ -28,10 +28,15 @@ export function initSolitaire() {
   const autoBtn = document.getElementById("sol-auto");
   const newBtn = document.getElementById("sol-new");
 
-  mountLeaderboardBox(dialog, "solitaire", () => (drawCount === 3 ? "draw3" : "draw1"), (s, m) => m || `${s}점`);
+  const easyBtn = document.getElementById("sol-easy");
+  const ruleEl = document.getElementById("sol-rule");
+  // 쉬움 모드 기록은 클래식 기록과 섞이지 않게 랭킹 모드를 따로 쓴다 (draw3-easy / draw1-easy).
+  const rankMode = () => (drawCount === 3 ? "draw3" : "draw1") + (easy ? "-easy" : "");
+  mountLeaderboardBox(dialog, "solitaire", rankMode, (s, m) => m || `${s}점`);
 
   let drawCount = 3;
-  let game = createSolitaireGame({ drawCount });
+  let easy = false;
+  let game = createSolitaireGame({ drawCount, easy });
   let selected = null;
   let hintPair = null;
   let startedAt = 0;
@@ -155,6 +160,15 @@ export function initSolitaire() {
     undoBtn.disabled = game.history.length === 0 || wonHandled;
     drawModeBtn.textContent = drawCount === 3 ? "3장 뽑기" : "1장 뽑기";
     drawModeBtn.setAttribute("aria-pressed", String(drawCount === 3));
+    if (easyBtn) {
+      easyBtn.textContent = easy ? "쉬움 모드 ON" : "쉬움 모드 OFF";
+      easyBtn.setAttribute("aria-pressed", String(easy));
+    }
+    if (ruleEl) {
+      ruleEl.textContent = easy
+        ? "쉬움 규칙: 색·무늬 상관없이 숫자가 하나 작은 카드를 쌓을 수 있어요. (완성 칸은 같은 무늬로 A→K)"
+        : "규칙: 줄에는 빨강(♥♦)과 검정(♠♣)을 번갈아, 숫자가 하나 작은 카드를 쌓아요. 같은 색끼리는 못 쌓고, 무늬는 달라도 돼요.";
+    }
     autoBtn.hidden = !canAutoComplete(game);
 
     const topRow = document.createElement("div");
@@ -254,7 +268,7 @@ export function initSolitaire() {
       const total = game.score + bonus;
       window.cafeEarnPoints?.(40, "코지 솔리테어 클리어");
       submitArcadeScore("solitaire", total, {
-        mode: drawCount === 3 ? "draw3" : "draw1",
+        mode: rankMode(),
         metric: `${formatSec(elapsedSec)} · ${game.moves}수`,
       });
       statusEl.textContent = `🎉 솔리테어 완성! 최종 ${total.toLocaleString()}점 (${formatSec(elapsedSec)})`;
@@ -265,7 +279,7 @@ export function initSolitaire() {
     drawCount = nextDraw;
     clearInterval(clockId);
     clearInterval(autoTimer);
-    game = createSolitaireGame({ drawCount });
+    game = createSolitaireGame({ drawCount, easy });
     selected = null;
     hintPair = null;
     startedAt = 0;
@@ -276,8 +290,16 @@ export function initSolitaire() {
     render();
   }
 
-  drawModeBtn.addEventListener("click", () => reset(drawCount === 1 ? 3 : 1));
+  drawModeBtn.addEventListener("click", () => {
+    reset(drawCount === 1 ? 3 : 1);
+    document.dispatchEvent(new CustomEvent("arcade-leaderboard-mode-changed", { detail: { game: "solitaire" } }));
+  });
   newBtn.addEventListener("click", () => reset(drawCount));
+  easyBtn?.addEventListener("click", () => {
+    easy = !easy;
+    reset(drawCount);
+    document.dispatchEvent(new CustomEvent("arcade-leaderboard-mode-changed", { detail: { game: "solitaire" } }));
+  });
   undoBtn.addEventListener("click", () => {
     if (undoSolitaire(game)) {
       selected = null;

@@ -31,7 +31,7 @@ export function createDeck(seed = null) {
   return deck;
 }
 
-export function createSolitaireGame({ drawCount = 1, seed = null } = {}) {
+export function createSolitaireGame({ drawCount = 1, seed = null, easy = false } = {}) {
   const deck = createDeck(seed);
   const tableau = Array.from({ length: 7 }, () => []);
   let cursor = 0;
@@ -45,6 +45,8 @@ export function createSolitaireGame({ drawCount = 1, seed = null } = {}) {
   const stock = deck.slice(cursor).map((c) => ({ ...c, faceUp: false }));
   return {
     drawCount: drawCount === 3 ? 3 : 1,
+    // 쉬움 모드: 색을 번갈아 놓지 않아도 숫자만 하나 작으면 줄에 쌓을 수 있다. 기본은 클래식 규칙.
+    easy: Boolean(easy),
     stock,
     waste: [],
     foundations: [[], [], [], []],
@@ -85,12 +87,13 @@ export function canMoveToFoundation(card, foundationPile) {
   return top.suit === card.suit && card.rank === top.rank + 1;
 }
 
-export function canMoveToTableau(card, tableauPile) {
+export function canMoveToTableau(card, tableauPile, { easy = false } = {}) {
   if (!card) return false;
   if (!tableauPile.length) return card.rank === 13;
   const top = tableauPile[tableauPile.length - 1];
   if (!top.faceUp) return false;
-  return isRedSuit(card.suit) !== isRedSuit(top.suit) && card.rank === top.rank - 1;
+  if (card.rank !== top.rank - 1) return false;
+  return easy || isRedSuit(card.suit) !== isRedSuit(top.suit);
 }
 
 export function drawFromStock(game) {
@@ -142,7 +145,7 @@ export function moveCards(game, source, target) {
     if (!fPile || !canMoveToFoundation(lead, fPile)) return false;
   } else if (target.kind === "tableau") {
     const tPile = game.tableau[target.index];
-    if (!tPile || !canMoveToTableau(lead, tPile)) return false;
+    if (!tPile || !canMoveToTableau(lead, tPile, game)) return false;
   } else {
     return false;
   }
@@ -228,7 +231,7 @@ export function findSolitaireHint(game) {
       if (dest === ti) continue;
       // Avoid shuffling a King from an already empty base column to another empty column.
       if (firstFaceUp === 0 && game.tableau[dest].length === 0) continue;
-      if (canMoveToTableau(card, game.tableau[dest])) {
+      if (canMoveToTableau(card, game.tableau[dest], game)) {
         return { source: { kind: "tableau", index: ti, cardIndex: firstFaceUp }, target: { kind: "tableau", index: dest } };
       }
     }
@@ -236,7 +239,7 @@ export function findSolitaireHint(game) {
   if (game.waste.length) {
     const w = game.waste[game.waste.length - 1];
     for (let dest = 0; dest < 7; dest++) {
-      if (canMoveToTableau(w, game.tableau[dest])) {
+      if (canMoveToTableau(w, game.tableau[dest], game)) {
         return { source: { kind: "waste" }, target: { kind: "tableau", index: dest } };
       }
     }

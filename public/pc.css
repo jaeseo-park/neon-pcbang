@@ -391,6 +391,8 @@ a.pc-app-link { text-decoration: none; }
 .sol-toolbar .walk-button, .knit-toolbar .walk-button { min-height: 40px; touch-action: manipulation; }
 .knit-toolbar label { font-size: 12px; color: var(--sub); display: flex; align-items: center; gap: 5px; }
 .knit-toolbar select { padding: 6px 8px; min-height: 38px; border: 1px solid var(--line); border-radius: 4px; background: #252320; color: var(--text); }
+.sol-rule { margin: 0 0 6px; font-size: 11px; line-height: 1.4; text-align: left; }
+#sol-easy[aria-pressed="true"] { background: #569e7c; border-color: #ffdf85; color: #fff9f2; }
 .sol-board { display: grid; gap: 8px; user-select: none; touch-action: manipulation; }
 .sol-top-row { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 5px; }
 .sol-waste-fan { grid-column: span 2; position: relative; }
