@@ -323,7 +323,7 @@
     plant(base, S(ct.x + 62), S(ct.y + 55), 0, night);
 
     // Notice board (건의 · 오류 제보): standing cork board with pinned notes
-    const nb = lm?.board ?? { x: 670, y: 236, w: 42, h: 50 };
+    const nb = lm?.board ?? { x: 688, y: 408, w: 42, h: 50 };
     noticeBoard(base, S(nb.x), S(nb.y), S(nb.w), S(nb.h));
 
     // Self-service Kiosk
@@ -341,7 +341,7 @@
 
     const plants = lm?.plants ?? [
       [170, 449], [327, 449], [651, 449], [99, 448], [145, 83],
-      [267, 386], [382, 386], [500, 386], [623, 386], [687, 405],
+      [267, 386], [382, 386], [500, 386], [623, 386], [664, 420],
     ];
     for (const [x, y] of plants) plant(base, S(x), S(y), x % 3, night);
     for (const x of [22, 724]) rect(base, S(x), S(447), S(21), S(30), PAL.s);
