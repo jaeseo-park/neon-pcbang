@@ -1,6 +1,6 @@
 /* 매장 게시판 (건의 · 오류 제보) */
-/* 맵 위 버튼: cafe-layout.js landmarks.board (688,408 / 768x512) 의 위쪽 가운데 */
-.board-pin { --x: 92.3%; --y: 77.8%; border-color: #e8b15d; }
+/* 맵 위 버튼: cafe-layout.js landmarks.board (688,400 / 768x512) 의 위쪽 가운데 */
+.board-pin { --x: 92.3%; --y: 76.2%; border-color: #e8b15d; }
 .scene:not([data-space="hall"],[data-space="lobby"]) .board-pin { display: none; }
 
 #board { width: min(520px, calc(100% - 14px)); }

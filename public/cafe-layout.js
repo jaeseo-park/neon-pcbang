@@ -51,20 +51,22 @@
     kiosk: { label: "키오스크", x: 186, y: 386, w: 28, h: 36 },
     // 매장 게시판(건의·오류 제보): 오른쪽 아래 구석, 통행 영역(x <= 85.4%) 바깥에 세워 둔다.
     // 상호작용 지점은 lib/cafe-world.mjs 의 noticeBoard, 버튼 위치는 cafe-board.css 의 .board-pin 과 맞춘다.
-    board: { label: "게시판", x: 688, y: 408, w: 42, h: 50 },
+    board: { label: "게시판", x: 688, y: 400, w: 42, h: 50 },
     entrance: { label: "입구", x: 241, y: 457, w: 36, h: 30, rugX: 224, rugY: 432, rugW: 71, rugH: 29 },
     // 리뉴얼 시안 규격(벽 두께·문틀·문턱)으로 그리는 벽 있는 룸. 문은 동쪽 벽에 있고 doorY 가 문 중심이다.
     // doorY 는 lib/cafe-world.mjs 의 roomPortals[<key>].y (퍼센트 × 5.12) 와 맞춘다. 좌석 키는 건드리지 않는다.
     rooms: {
-      solo: { label: "1인석", x: 35, y: 96, w: 85, h: 74, doorY: 129, pcs: 1 },
-      duo: { label: "2인석", x: 35, y: 234, w: 85, h: 46, doorY: 270, pcs: 2 },
+      // door: 문이 난 벽("east" | "west"), rows: 줄마다 놓인 PC 수
+      solo: { label: "1인석", x: 35, y: 96, w: 85, h: 74, doorY: 129, door: "east", rows: [1] },
+      duo: { label: "2인석", x: 35, y: 234, w: 85, h: 46, doorY: 270, door: "east", rows: [2] },
+      team: { label: "5인룸", x: 657, y: 160, w: 76, h: 64, doorY: 192, door: "west", rows: [5] },
+      squad: { label: "6인룸", x: 657, y: 300, w: 76, h: 66, doorY: 332, door: "west", rows: [3, 3] },
     },
-    alcoves: [
-      { x: 657, y: 165, w: 69, h: 53 },
-      { x: 657, y: 307, w: 69, h: 47 },
-    ],
+    // 위쪽 벽에 붙는 흡연구역 문과 창문 범위 (문이 창문과 겹치지 않게 창문을 문 사이로 줄였다)
+    wall: { top: 21, bottom: 59, windowX: 162, windowW: 444, lamps: [200, 292, 384, 476, 568] },
+    alcoves: [],
     plants: [
-      [170, 449], [327, 449], [651, 449], [99, 448], [145, 83], [62, 208], [98, 222],
+      [170, 449], [327, 449], [651, 449], [99, 448], [108, 84], [62, 208], [98, 222],
       [267, 386], [382, 386], [500, 386], [623, 386], [664, 420],
     ],
   };
