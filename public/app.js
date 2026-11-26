@@ -807,6 +807,11 @@ const gameLoaders = {
   merge: () => import("./merge.js").then(({ initMerge }) => initMerge()),
   solitaire: () => import("./solitaire.js").then(({ initSolitaire }) => initSolitaire()),
   knit: () => import("./knit-unravel.js").then(({ initKnitUnravel }) => initKnitUnravel()),
+  cake: () => import("./cake-sort.js").then(({ initCakeSort }) => initCakeSort()),
+};
+// 게임은 아니지만 같은 방식으로 처음 열 때만 불러오는 창
+const windowLoaders = {
+  board: () => import("./cafe-board.js").then(({ initCafeBoard }) => initCafeBoard()),
 };
 const requestedGames = new Set();
 
@@ -829,7 +834,9 @@ document.querySelectorAll("[data-open]").forEach((button) => {
         renderTimer();
       }
     }
-    const load = gameLoaders[next.id];
+    // 오류 제보에 자동으로 붙이는 "마지막으로 연 미니게임"
+    if (gameLoaders[next.id]) window.cafeLastGame = next.id;
+    const load = gameLoaders[next.id] ?? windowLoaders[next.id];
     if (!load || requestedGames.has(next.id)) return;
     requestedGames.add(next.id);
     load().catch(() => {

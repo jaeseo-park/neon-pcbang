@@ -172,7 +172,7 @@
 .arcade-rank-box summary { cursor: pointer; font-size: 11px; font-weight: 750; color: #ffe19c; }
 .arcade-rank-tabs { display: flex; gap: 4px; margin-top: 8px; }
 .arcade-rank-tab {
-  flex: 1; min-height: 32px; padding: 4px 8px; border: 1px solid #595249; border-radius: 4px;
+  flex: 1; min-height: 44px; padding: 4px 8px; border: 1px solid #595249; border-radius: 4px;
   background: #2d2a27; color: var(--sub); font-size: 11px; font-weight: 750; cursor: pointer; touch-action: manipulation;
 }
 .arcade-rank-tab[aria-selected="true"] { background: #4c383d; border-color: #f6cf73; color: #ffe19c; box-shadow: inset 0 -2px #f6cf73; }
@@ -552,6 +552,51 @@ a.pc-app-link { text-decoration: none; }
 }
 #knit #knit-status { margin: 3px 0 0; font-size: 11px; line-height: 1.25; }
 #knit .arcade-lb { margin-top: 3px; }
+
+/* 케이크 정리 */
+#cake { width: min(420px, calc(100% - 14px)); }
+#cake .dialog-inner { padding: clamp(10px, 3vw, 18px); }
+.cake-legend { display: flex; flex-wrap: wrap; gap: 4px 10px; margin: 6px 0; font-size: 11px; color: var(--sub); }
+.cake-legend-item { display: inline-flex; align-items: center; gap: 4px; }
+.cake-legend-item .cake-slice { width: 16px; height: 16px; font-size: 9px; }
+.cake-board {
+  display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 5px; padding: 6px;
+  width: min(100%, clamp(220px, 44dvh, 330px)); margin-inline: auto;
+  border: 2px solid #59444a; border-radius: 8px; background: #271e22; user-select: none; touch-action: manipulation;
+}
+.cake-cell, .cake-queue-plate {
+  position: relative; padding: 4px; border: 2px dashed #6e525a; border-radius: 6px; background: #33272c;
+  cursor: pointer; touch-action: manipulation;
+}
+.cake-cell { aspect-ratio: 4 / 3; min-height: 44px; }
+.cake-cell.filled { border-style: solid; border-color: #261c29; background: #e9dcc6; box-shadow: inset 0 -3px #cbb89a; cursor: default; }
+.cake-cell:not(.filled):not(:disabled):hover { border-color: #f6cf73; }
+.cake-cell[data-hint="true"], .cake-queue-plate[data-hint="true"] { outline: 3px solid #ffdf85; outline-offset: 1px; }
+.cake-plate { display: grid; grid-template: repeat(2, 1fr) / repeat(3, 1fr); gap: 2px; width: 100%; height: 100%; }
+.cake-plate i { border-radius: 2px; }
+.cake-slice {
+  display: grid; place-items: center; border: 1px solid #261c29; border-radius: 2px;
+  background: var(--fill); color: var(--ink); box-shadow: inset 0 2px var(--hi);
+  font: 900 10px/1 var(--mono); font-style: normal;
+}
+.cake-queue { display: grid; grid-template-columns: repeat(3, minmax(0, 88px)); justify-content: center; gap: 8px; margin: 8px 0 4px; }
+.cake-queue-plate { aspect-ratio: 4 / 3; min-height: 48px; border-style: solid; border-color: #261c29; background: #e9dcc6; box-shadow: inset 0 -3px #cbb89a; }
+.cake-queue-plate:disabled { border-style: dashed; border-color: #6e525a; background: #33272c; box-shadow: none; cursor: default; }
+.cake-queue-plate[aria-pressed="true"] { box-shadow: 0 0 0 3px #f6cf73, inset 0 -3px #cbb89a; transform: translateY(-2px); }
+.cake-toolbar { display: flex; flex-wrap: wrap; gap: 6px; margin: 6px 0; }
+.cake-toolbar .walk-button { flex: 1; min-height: 44px; touch-action: manipulation; }
+#cake-sweep[aria-pressed="true"] { background: #569e7c; border-color: #ffdf85; color: #fff9f2; }
+#cake-sweep span { padding: 1px 5px; border-radius: 99px; background: #261b1e; color: #ffe2ad; font-size: 10px; }
+@media (prefers-reduced-motion: no-preference) {
+  .cake-cell.is-done::after {
+    content: ""; position: absolute; inset: 2px; border-radius: 4px; background: var(--fill); pointer-events: none;
+    animation: cake-done .45s steps(5, end) both;
+  }
+}
+@keyframes cake-done {
+  from { opacity: .95; transform: scale(1); }
+  to { opacity: 0; transform: scale(.4); }
+}
 
 .order-receipt { margin: 9px 0; padding: 9px; border: 1px dashed #7d8c79; border-radius: 5px; background: #3a463d; }
 .order-receipt strong { color: #dbe8d6; font-size: 13px; }

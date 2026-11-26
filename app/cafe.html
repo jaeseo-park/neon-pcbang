@@ -24,6 +24,7 @@
   <link rel="stylesheet" href="./cafe-delivery.css">
   <link rel="stylesheet" href="./cafe-art.css">
   <link rel="stylesheet" href="./cafe-interface.css">
+  <link rel="stylesheet" href="./cafe-board.css">
   <script src="./cafe-layout.js" defer></script>
   <script src="./pixel-tiles.js" defer></script>
   <script src="./cafe-art.js" defer></script>
@@ -140,6 +141,7 @@
             <button id="seat-marker" class="seat-marker mono" type="button" hidden></button>
             <button id="kiosk-pin" class="kiosk-pin" type="button" aria-label="입구 키오스크에서 자리 고르기"><span>자리 선택기</span></button>
             <button class="stage-room-door snack-counter" type="button" data-open="snacks">매점 · 오픈키친</button>
+            <button class="stage-room-door board-pin" type="button" data-open="board">게시판</button>
             <div id="room-doors" aria-label="구역 입구"></div>
           </div>
           <button class="proximity-prompt" id="proximity-prompt" type="button" hidden></button>
@@ -388,7 +390,7 @@
         <button class="pc-end" id="pc-end" type="button">자리 반납 · 사용 종료</button>
       </section>
       <section class="pc-launcher" id="pc-launcher" aria-labelledby="pc-launcher-title" hidden>
-        <div class="pc-panel-heading"><svg aria-hidden="true"><use href="./icons.svg#game"/></svg><h3 id="pc-launcher-title" tabindex="-1">길모퉁이 게임 런처</h3><span class="mono">11 GAMES · LIVE RANK</span><button class="pc-launcher-close" id="pc-launcher-close" type="button" aria-label="게임 런처 닫기">×</button></div>
+        <div class="pc-panel-heading"><svg aria-hidden="true"><use href="./icons.svg#game"/></svg><h3 id="pc-launcher-title" tabindex="-1">길모퉁이 게임 런처</h3><span class="mono">12 GAMES · LIVE RANK</span><button class="pc-launcher-close" id="pc-launcher-close" type="button" aria-label="게임 런처 닫기">×</button></div>
         <div class="pc-apps">
           <button class="pc-app" type="button" data-open="pvp"><span class="pc-app-icon pixel-launcher-slot" style="--lx:0%" aria-hidden="true"></span><span><strong>모퉁이 대국장 <em class="pc-hot">LIVE</em></strong><small>좌석 간 실시간 오목·알까기</small></span><svg aria-hidden="true"><use href="./icons.svg#chevron"/></svg></button>
           <button class="pc-app" type="button" data-open="tetris"><span class="pc-app-icon pixel-launcher-slot" style="--lx:12.5%" aria-hidden="true"></span><span><strong>모퉁이 블록 드롭 <em class="pc-hot">NEW</em></strong><small>홀드·고스트 정통 테트리스</small></span><svg aria-hidden="true"><use href="./icons.svg#chevron"/></svg></button>
@@ -401,6 +403,7 @@
           <button class="pc-app" type="button" data-open="arcade"><span class="pc-app-icon pixel-launcher-slot" style="--lx:75%" aria-hidden="true"></span><span><strong>모퉁이 벽돌깨기 DX</strong><small>멀티볼·와이드 아이템 아케이드</small></span><svg aria-hidden="true"><use href="./icons.svg#chevron"/></svg></button>
           <button class="pc-app" type="button" data-open="merge"><span class="pc-app-icon pixel-launcher-slot" style="--lx:87.5%" aria-hidden="true"></span><span><strong>2048</strong><small>같은 숫자를 밀어서 합쳐요</small></span><svg aria-hidden="true"><use href="./icons.svg#chevron"/></svg></button>
           <button class="pc-app" type="button" data-open="sudoku"><span class="pc-app-icon pixel-launcher-slot" style="--lx:100%" aria-hidden="true"></span><span><strong>스도쿠 (3단계)</strong><small>쉬움·보통·어려움 두뇌 퍼즐</small></span><svg aria-hidden="true"><use href="./icons.svg#chevron"/></svg></button>
+          <button class="pc-app" type="button" data-open="cake"><span class="pc-app-icon pixel-neighbor" aria-hidden="true"><svg viewBox="0 0 12 11" shape-rendering="crispEdges"><path fill="#d8433f" d="M5 0h2v1h-2zM5 1h2v1h-2z"/><path fill="#261c29" d="M4 1h1v1h-1zM7 1h1v1h-1zM2 2h8v1h-8zM1 3h1v1h-1zM10 3h1v1h-1zM1 4h1v1h-1zM10 4h1v1h-1zM1 5h1v1h-1zM10 5h1v1h-1zM1 6h1v1h-1zM10 6h1v1h-1zM1 7h1v1h-1zM10 7h1v1h-1zM1 8h1v1h-1zM10 8h1v1h-1zM0 9h1v1h-1zM11 9h1v1h-1zM1 10h10v1h-10z"/><path fill="#fff3dc" d="M2 3h8v1h-8zM2 4h1v1h-1zM4 4h2v1h-2zM7 4h2v1h-2z"/><path fill="#eb7aa4" d="M3 4h1v1h-1zM6 4h1v1h-1zM9 4h1v1h-1zM2 5h8v1h-8zM2 7h8v1h-8z"/><path fill="#85524f" d="M2 6h8v1h-8zM2 8h8v1h-8z"/><path fill="#cbb89a" d="M1 9h10v1h-10z"/></svg></span><span><strong>케이크 정리 <em class="pc-hot">NEW</em></strong><small>같은 맛 6조각을 모아 케이크 완성</small></span><svg aria-hidden="true"><use href="./icons.svg#chevron"/></svg></button>
           <a class="pc-app pc-app-link" href="https://nyangdabang.epsiloneri.com/" target="_blank" rel="noopener" data-neighbor="nyangdabang"><span class="pc-app-icon pixel-neighbor" aria-hidden="true"><svg viewBox="0 0 12 11" shape-rendering="crispEdges"><path fill="#261c29" d="M1 0h2v1h-2zM9 0h2v1h-2zM1 1h1v1h-1zM3 1h1v1h-1zM8 1h1v1h-1zM10 1h1v1h-1zM1 2h1v1h-1zM4 2h4v1h-4zM10 2h1v1h-1zM0 3h1v1h-1zM11 3h1v1h-1zM0 4h1v1h-1zM11 4h1v1h-1zM0 5h1v1h-1zM3 5h1v1h-1zM8 5h1v1h-1zM11 5h1v1h-1zM0 6h1v1h-1zM3 6h1v1h-1zM8 6h1v1h-1zM11 6h1v1h-1zM0 7h1v1h-1zM11 7h1v1h-1zM0 8h1v1h-1zM11 8h1v1h-1zM1 9h1v1h-1zM10 9h1v1h-1zM2 10h8v1h-8z"/><path fill="#f2b56b" d="M2 1h1v1h-1zM9 1h1v1h-1zM2 2h2v1h-2zM8 2h2v1h-2zM1 3h10v1h-10zM1 4h10v1h-10zM1 5h2v1h-2zM4 5h4v1h-4zM9 5h2v1h-2zM1 6h2v1h-2zM4 6h1v1h-1zM7 6h1v1h-1zM9 6h2v1h-2zM1 7h4v1h-4zM7 7h4v1h-4zM1 8h10v1h-10zM2 9h8v1h-8z"/><path fill="#eb7aa4" d="M5 6h2v1h-2z"/><path fill="#fff3dc" d="M5 7h2v1h-2z"/></svg></span><span><strong>냥다방 머지 <em class="pc-hot">이웃</em></strong><small>옆 동네 고양이 다방 · 새 탭으로 열려요</small></span><svg aria-hidden="true"><use href="./icons.svg#chevron"/></svg></a>
         </div>
       </section>
@@ -409,7 +412,7 @@
       <details class="pc-start" id="pc-start">
         <summary><i aria-hidden="true"></i>시작</summary>
         <div class="pc-start-menu">
-          <button type="button" data-launcher>게임 런처 (11종)</button>
+          <button type="button" data-launcher>게임 런처 (12종)</button>
           <button type="button" data-open="snacks">매점 2.0 주문</button>
           <button type="button" data-open="snack-gift">옆 자리 간식 쏘기</button>
           <button type="button" data-pc-break="booth">실내 흡연구역 외출</button>
@@ -745,6 +748,69 @@
         <button class="walk-button knit-booster" id="knit-boost-scissors" type="button">가위 <span class="mono" id="knit-count-scissors">2</span></button>
       </div>
       <p id="knit-status" class="game-status" role="status">맨 위 통로와 이어진 실패를 눌러 상단 뜨개 그림을 풀어내세요.</p>
+    </div>
+  </dialog>
+
+  <!-- GAME 12: CAKE TIDY -->
+  <dialog id="cake" aria-labelledby="cake-title">
+    <div class="dialog-inner">
+      <div class="dialog-head"><span class="panel-index mono"><span>12</span> / CAKE TIDY</span><button class="close" type="button" data-close aria-label="케이크 정리 닫기">×</button></div>
+      <h2 id="cake-title">케이크 정리</h2>
+      <p class="panel-copy">접시를 놓으면 옆 접시와 같은 맛 조각이 모여요. 같은 맛 6조각이면 케이크 완성!</p>
+      <div class="game-hud mono">
+        <span>점수 <strong id="cake-score">0</strong></span>
+        <span>케이크 <strong id="cake-count">0</strong></span>
+        <span>최고 <strong id="cake-best">0</strong></span>
+      </div>
+      <div class="cake-legend" id="cake-legend" aria-label="맛 구분 안내"></div>
+      <div class="cake-board" id="cake-board" role="group" aria-label="접시 자리 5행 4열"></div>
+      <div class="cake-queue" id="cake-queue" role="group" aria-label="대기 접시 3개"></div>
+      <div class="cake-toolbar">
+        <button class="walk-button" id="cake-hint" type="button">힌트</button>
+        <button class="walk-button" id="cake-sweep" type="button" aria-pressed="false">접시 치우기 <span class="mono" id="cake-sweep-count">2</span></button>
+        <button class="walk-button" id="cake-new" type="button">새 게임</button>
+      </div>
+      <p id="cake-status" class="game-status" role="status">아래 접시를 고르고 빈 자리에 놓으세요.</p>
+    </div>
+  </dialog>
+
+  <!-- 매장 게시판 (건의 · 오류 제보) -->
+  <dialog id="board" aria-labelledby="board-title">
+    <div class="dialog-inner">
+      <div class="dialog-head"><span class="panel-index mono">길모퉁이 / NOTICE BOARD</span><button class="close" type="button" data-close aria-label="게시판 닫기">×</button></div>
+      <h2 id="board-title">매장 게시판</h2>
+      <p class="panel-copy">건의와 오류 제보를 남겨 주세요. 닉네임과 내용만 저장하고, 처리 상태는 모두에게 보여요.</p>
+      <div class="board-filters" role="group" aria-label="글 걸러 보기">
+        <select id="board-filter-category" aria-label="말머리">
+          <option value="">전체 말머리</option>
+          <option value="suggestion">건의</option>
+          <option value="bug">오류 제보</option>
+        </select>
+        <select id="board-filter-status" aria-label="처리 상태">
+          <option value="">전체 상태</option>
+          <option value="waiting">대기</option>
+          <option value="accepted">반영</option>
+          <option value="rejected">꺼져</option>
+          <option value="hold">보류</option>
+        </select>
+        <button class="walk-button stage-key" id="board-write-open" type="button" aria-expanded="false">글쓰기</button>
+      </div>
+      <form class="board-form" id="board-form" hidden>
+        <label for="board-category">말머리</label>
+        <select id="board-category" required>
+          <option value="suggestion">건의</option>
+          <option value="bug">오류 제보</option>
+        </select>
+        <label for="board-body">내용 <span class="mono" id="board-count">0 / 300</span></label>
+        <textarea id="board-body" rows="4" maxlength="300" required placeholder="개인정보(연락처·실명 등)는 적지 말아 주세요."></textarea>
+        <p class="dialog-note" id="board-context-note" hidden></p>
+        <div class="board-form-actions">
+          <button class="walk-button" id="board-cancel" type="button">취소</button>
+          <button class="walk-button stage-key" type="submit">등록</button>
+        </div>
+      </form>
+      <p id="board-status" class="game-status" role="status"></p>
+      <ul class="board-list" id="board-list" aria-label="게시글 목록"></ul>
     </div>
   </dialog>
 
